@@ -21,7 +21,7 @@ pipeline {
                     emailext(
                         to: "${EMAIL_RECIPIENT}",
                         subject: "Jenkins: Unit and Integration Tests Completed",
-                        body: "The Unit and Integration Tests stage has completed."
+                        body: "The Unit and Integration Tests stage has completed successfully."
                     )
                 }
             }
@@ -36,7 +36,7 @@ pipeline {
                     emailext(
                         to: "${EMAIL_RECIPIENT}",
                         subject: "Jenkins: Security Scan Completed",
-                        body: "The Security Scan stage has completed."
+                        body: "The Security Scan stage has completed successfully."
                     )
                 }
             }
@@ -48,14 +48,14 @@ pipeline {
             emailext(
                 to: "${EMAIL_RECIPIENT}",
                 subject: "Jenkins Pipeline: Build Success",
-                body: "The Jenkins pipeline completed successfully. The application has been deployed to production."
+                body: "The Jenkins pipeline has completed successfully and the application has been deployed."
             )
         }
         failure {
             emailext(
                 to: "${EMAIL_RECIPIENT}",
                 subject: "Jenkins Pipeline: Build Failed",
-                body: "The Jenkins pipeline failed. Please check the Jenkins logs for more details."
+                body: "The Jenkins pipeline has failed. Please check the Jenkins logs for more details."
             )
         }
     }
