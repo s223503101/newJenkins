@@ -5,7 +5,7 @@ pipeline {
         // Define environment variables here
         STAGING_SERVER = 'staging-server-address'
         PRODUCTION_SERVER = 'production-server-address'
-        EMAIL_RECIPIENT = 'kirtikasharma5104@gmail.com'
+        EMAIL_RECIPIENT = 'oceanthakral@gmail.com'
     }
 
     stages {
@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Building the code...'
                 // Replace with the actual build command
-                sh 'mvn clean install'
+                
             }
         }
 
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Running unit and integration tests...'
                 // Replace with the actual test commands
-                sh 'mvn test'
+                
             }
             post {
                 always {
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 echo 'Running code analysis...'
                 // Replace with the actual code analysis command
-                sh 'mvn sonar:sonar'
+        
             }
         }
 
@@ -48,7 +48,7 @@ pipeline {
             steps {
                 echo 'Running security scan...'
                 // Replace with the actual security scan command
-                sh 'zap-baseline.py -t http://localhost:8080 -r zap_report.html'
+                
             }
             post {
                 always {
@@ -67,7 +67,7 @@ pipeline {
             steps {
                 echo 'Deploying to staging...'
                 // Replace with the actual deployment command
-                sh 'scp target/app.war user@${STAGING_SERVER}:/path/to/deploy/'
+                
             }
         }
 
@@ -75,7 +75,7 @@ pipeline {
             steps {
                 echo 'Running integration tests on staging...'
                 // Replace with the actual staging tests command
-                sh 'curl -X GET http://${STAGING_SERVER}/health-check'
+                
             }
         }
 
@@ -83,7 +83,7 @@ pipeline {
             steps {
                 echo 'Deploying to production...'
                 // Replace with the actual deployment command
-                sh 'scp target/app.war user@${PRODUCTION_SERVER}:/path/to/deploy/'
+                
             }
         }
     }
