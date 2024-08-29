@@ -9,16 +9,17 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the code...'
-                // Simulate a build process
-                sh 'echo "Build process completed."'
+                // Using a simple echo command instead of a shell command
+                // to simulate the build process on Windows
+                bat 'echo "Build process completed."'
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
-                // Simulate running tests
-                sh 'echo "Tests completed."'
+                // Simulate a test process
+                bat 'echo "Tests completed."'
             }
             post {
                 always {
@@ -35,8 +36,8 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Running security scan...'
-                // Simulate a security scan
-                sh 'echo "Security scan completed."'
+                // Simulate a security scan process
+                bat 'echo "Security scan completed."'
             }
             post {
                 always {
