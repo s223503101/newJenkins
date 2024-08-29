@@ -9,19 +9,24 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the code...'
+                // Simulate a build process
+                sh 'echo "Build process completed."'
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
+                // Simulate running tests
+                sh 'echo "Tests completed."'
             }
             post {
                 always {
                     emailext(
                         to: "${EMAIL_RECIPIENT}",
                         subject: "Jenkins: Unit and Integration Tests Completed",
-                        body: "The Unit and Integration Tests stage has completed successfully."
+                        body: "The Unit and Integration Tests stage has completed successfully.",
+                        attachLog: true
                     )
                 }
             }
@@ -30,13 +35,16 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Running security scan...'
+                // Simulate a security scan
+                sh 'echo "Security scan completed."'
             }
             post {
                 always {
                     emailext(
                         to: "${EMAIL_RECIPIENT}",
                         subject: "Jenkins: Security Scan Completed",
-                        body: "The Security Scan stage has completed successfully."
+                        body: "The Security Scan stage has completed successfully.",
+                        attachLog: true
                     )
                 }
             }
@@ -48,14 +56,16 @@ pipeline {
             emailext(
                 to: "${EMAIL_RECIPIENT}",
                 subject: "Jenkins Pipeline: Build Success",
-                body: "The Jenkins pipeline has completed successfully and the application has been deployed."
+                body: "The Jenkins pipeline completed successfully and the application has been built and tested.",
+                attachLog: true
             )
         }
         failure {
             emailext(
                 to: "${EMAIL_RECIPIENT}",
                 subject: "Jenkins Pipeline: Build Failed",
-                body: "The Jenkins pipeline has failed. Please check the Jenkins logs for more details."
+                body: "The Jenkins pipeline failed. Please check the Jenkins logs for more details.",
+                attachLog: true
             )
         }
     }
