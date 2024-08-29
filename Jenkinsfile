@@ -2,9 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Define environment variables here
-        STAGING_SERVER = 'staging-server-address'
-        PRODUCTION_SERVER = 'production-server-address'
         EMAIL_RECIPIENT = 'oceanthakral@gmail.com'
     }
 
@@ -12,16 +9,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the code...'
-                // Replace with the actual build command
-                
+                // Build step
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
-                // Replace with the actual test commands
-                
+                // Test steps
             }
             post {
                 always {
@@ -36,23 +31,15 @@ pipeline {
             }
         }
 
-        stage('Code Analysis') {
-            steps {
-                echo 'Running code analysis...'
-                // Replace with the actual code analysis command
-        
-            }
-        }
+        // Other stages...
 
         stage('Security Scan') {
             steps {
                 echo 'Running security scan...'
-                // Replace with the actual security scan command
-                
+                // Security scan steps
             }
             post {
                 always {
-                    // Send email notification after this stage
                     emailext(
                         to: "${EMAIL_RECIPIENT}",
                         subject: "Jenkins: Security Scan Stage - ${currentBuild.currentResult}",
@@ -60,30 +47,6 @@ pipeline {
                         attachLog: true
                     )
                 }
-            }
-        }
-
-        stage('Deploy to Staging') {
-            steps {
-                echo 'Deploying to staging...'
-                // Replace with the actual deployment command
-                
-            }
-        }
-
-        stage('Integration Tests on Staging') {
-            steps {
-                echo 'Running integration tests on staging...'
-                // Replace with the actual staging tests command
-                
-            }
-        }
-
-        stage('Deploy to Production') {
-            steps {
-                echo 'Deploying to production...'
-                // Replace with the actual deployment command
-                
             }
         }
     }
