@@ -3,77 +3,102 @@ pipeline {
     environment {
         EMAIL_RECIPIENT = 'missoceanocean18@gmail.com'
     }
-   stages {
+    
+    stages {
+        // Stage 1: Build
         stage('Build') {
             steps {
                 echo 'Stage 1: Build'
                 echo 'Detail: Build code using automation tool which will compile and package'
-                echo 'Build Automation Tool: Maven is used to conduct build automation testing !!!'
+                bat 'mvn clean install' // Simulating Maven build
             }
         }
+        
         // Stage 2: Unit and Integration Tests
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit tests with JUnit and integration tests with Selenium...'
+                echo 'Stage 2: Unit and Integration Test'
                 bat 'mvn test' // Simulating JUnit and Selenium tests
             }
             post {
-                always {
+                success {
                     emailext(
-                        subject: "Jenkins: Unit and Integration Tests Completed",
-                        body: "The Unit and Integration Tests stage has completed successfully.\n\nCheck the attached logs for details.",
+                        subject: "Jenkins: Unit and Integration Test Successful",
+                        body: "Stage 2 successfully implemented. Please refer to the logs for details.",
+                        to: "${EMAIL_RECIPIENT}",
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "Jenkins: Unit and Integration Test Failed",
+                        body: "Stage 2 failed. Please check the attached logs for more details.",
                         to: "${EMAIL_RECIPIENT}",
                         attachLog: true
                     )
                 }
             }
         }
+        
         // Stage 3: Code Analysis
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing code using SonarQube...'
+                echo 'Stage 3: Code Analysis'
                 bat 'sonar-scanner' // Simulating code analysis with SonarQube
             }
         }
+        
         // Stage 4: Security Scan
         stage('Security Scan') {
             steps {
-                echo 'Running security scan using OWASP Dependency-Check...'
+                echo 'Stage 4: Security Scan'
                 bat 'dependency-check' // Simulating a security scan with OWASP Dependency-Check
             }
             post {
-                always {
+                success {
                     emailext(
-                        subject: "Jenkins: Security Scan Completed",
-                        body: "The Security Scan stage has completed successfully.\n\nCheck the attached logs for details.",
+                        subject: "Jenkins: Security Scan Successful",
+                        body: "Stage 4 completed successfully. Please refer to the logs for details.",
+                        to: "${EMAIL_RECIPIENT}",
+                        attachLog: true
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "Jenkins: Security Scan Failed",
+                        body: "Stage 4 failed. Please check the attached logs for more details.",
                         to: "${EMAIL_RECIPIENT}",
                         attachLog: true
                     )
                 }
             }
         }
+        
         // Stage 5: Deploy to Staging
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to staging server using AWS CLI...'
+                echo 'Stage 5: Deploy to Staging'
                 bat 'aws deploy --application-name MyApp --deployment-group StagingGroup' // Simulating deployment to staging
             }
         }
+        
         // Stage 6: Integration Tests on Staging
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging environment using Selenium...'
+                echo 'Stage 6: Integration Tests on Staging'
                 bat 'selenium-tests' // Simulating integration tests on staging
             }
         }
+        
         // Stage 7: Deploy to Production
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to production server using AWS CLI...'
+                echo 'Stage 7: Deploy to Production'
                 bat 'aws deploy --application-name MyApp --deployment-group ProductionGroup' // Simulating deployment to production
             }
         }
     }
+    
     post {
         success {
             emailext(
@@ -93,4 +118,5 @@ pipeline {
         }
     }
 }
+
 
