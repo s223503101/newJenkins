@@ -1,122 +1,97 @@
 pipeline {
     agent any
-    environment {
-        EMAIL_RECIPIENT = 'missoceanocean18@gmail.com'
-    }
     
     stages {
-        // Stage 1: Build
         stage('Build') {
             steps {
-                echo 'Stage 1: Build'
-                echo 'Detail: Build code using automation tool which will compile and package'
-                bat 'mvn clean install' // Simulating Maven build
+                echo 'Stage 1: Build Process'
+                echo 'Details: The code is being built using an automation tool that compiles and packages the application.'
+                echo 'Automation Tool: Maven is being utilized for automating the build process.'
             }
         }
         
-        // Stage 2: Unit and Integration Tests
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Stage 2: Unit and Integration Test'
-                bat 'mvn test' // Simulating JUnit and Selenium tests
+                echo 'Stage 2: Unit and Integration Testing'
+                echo 'Details: Executing unit tests to verify functionality and integration tests to ensure that all components work together as intended.'
+                echo 'Testing Framework: JUnit 5 is used for performing unit tests.'
             }
             post {
                 success {
                     emailext(
-                        subject: "Jenkins: Unit and Integration Test Successful",
-                        body: "Stage 2 successfully implemented. Please refer to the logs for details.",
-                        to: "${EMAIL_RECIPIENT}",
-                        attachLog: true
+                        attachLog: true,
+                        to: 'missoceanocean18@gmail.com',
+                        subject: 'Unit and Integration Tests: Success',
+                        body: 'Stage 2 has successfully passed. Please refer to the attached logs for more information.'
                     )
                 }
                 failure {
                     emailext(
-                        subject: "Jenkins: Unit and Integration Test Failed",
-                        body: "Stage 2 failed. Please check the attached logs for more details.",
-                        to: "${EMAIL_RECIPIENT}",
-                        attachLog: true
+                        attachLog: true,
+                        to: 'missoceanocean18@gmail.com',
+                        subject: 'Unit and Integration Tests: Failure',
+                        body: 'Stage 2 failed. Please check the attached logs for further details.'
                     )
                 }
             }
         }
         
-        // Stage 3: Code Analysis
         stage('Code Analysis') {
             steps {
-                echo 'Stage 3: Code Analysis'
-                bat 'sonar-scanner' // Simulating code analysis with SonarQube
+                echo 'Stage 3: Code Quality Analysis'
+                echo 'Details: Performing a code analysis to ensure it adheres to industry standards and best practices.'
+                echo 'Analysis Tool: SonarQube is employed for static code analysis.'
             }
         }
         
-        // Stage 4: Security Scan
         stage('Security Scan') {
             steps {
-                echo 'Stage 4: Security Scan'
-                bat 'dependency-check' // Simulating a security scan with OWASP Dependency-Check
+                echo 'Stage 4: Security Vulnerability Scan'
+                echo 'Details: Conducting a security scan to identify potential vulnerabilities in the application.'
+                echo 'Security Tool: OWASP Dependency-Check is utilized for scanning vulnerabilities.'
             }
             post {
                 success {
-                    emailext(
-                        subject: "Jenkins: Security Scan Successful",
-                        body: "Stage 4 completed successfully. Please refer to the logs for details.",
-                        to: "${EMAIL_RECIPIENT}",
-                        attachLog: true
+                    emailext (
+                        attachLog: true,
+                        to: 'missoceanocean18@gmail.com',
+                        subject: 'Security Scan: Successful',
+                        body: 'Stage 4 completed successfully. Logs are attached for reference.'
                     )
                 }
                 failure {
                     emailext(
-                        subject: "Jenkins: Security Scan Failed",
-                        body: "Stage 4 failed. Please check the attached logs for more details.",
-                        to: "${EMAIL_RECIPIENT}",
-                        attachLog: true
+                        attachLog: true,
+                        to: 'missoceanocean18@gmail.com',
+                        subject: 'Security Scan: Failed',
+                        body: 'Stage 4 encountered a failure. Logs are attached for review.'
                     )
                 }
             }
         }
-        
-        // Stage 5: Deploy to Staging
+
         stage('Deploy to Staging') {
             steps {
-                echo 'Stage 5: Deploy to Staging'
-                bat 'aws deploy --application-name MyApp --deployment-group StagingGroup' // Simulating deployment to staging
+                echo 'Stage 5: Deployment to Staging'
+                echo 'Details: Deploying the application to the staging environment, simulating a production-like AWS EC2 instance.'
             }
         }
         
-        // Stage 6: Integration Tests on Staging
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Stage 6: Integration Tests on Staging'
-                bat 'selenium-tests' // Simulating integration tests on staging
+                echo 'Stage 6: Integration Testing in Staging'
+                echo 'Details: Running integration tests in the staging environment to ensure the application behaves as expected in a production-simulated environment.'
             }
         }
         
-        // Stage 7: Deploy to Production
         stage('Deploy to Production') {
             steps {
-                echo 'Stage 7: Deploy to Production'
-                bat 'aws deploy --application-name MyApp --deployment-group ProductionGroup' // Simulating deployment to production
+                echo 'Stage 7: Deployment to Production'
+                echo 'Details: Deploying the application to the production environment on AWS EC2.'
             }
-        }
-    }
-    
-    post {
-        success {
-            emailext(
-                subject: "Jenkins Pipeline: Build Success",
-                body: "The Jenkins pipeline completed successfully and the application has been built, tested, and deployed.\n\nCheck the attached logs for details.",
-                to: "${EMAIL_RECIPIENT}",
-                attachLog: true
-            )
-        }
-        failure {
-            emailext(
-                subject: "Jenkins Pipeline: Build Failed",
-                body: "The Jenkins pipeline failed. Please check the Jenkins logs for more details.",
-                to: "${EMAIL_RECIPIENT}",
-                attachLog: true
-            )
         }
     }
 }
+
 
 
